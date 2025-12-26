@@ -1,0 +1,13 @@
+src/
+tests/
+examples/
+tsconfig.json
+tsconfig.build.json
+jest.config.js
+.eslintrc.js
+.gitignore
+.env
+.env.*
+node_modules/
+dist/*.map
+dist/*.d.ts.map
