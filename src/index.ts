@@ -96,7 +96,7 @@ export class VisualDebugger {
     }
 
     private static emit(event: DebugEvent) {
-        if (configManager.isInitialized()) {
+        if (configManager.isInitialized() && configManager.get().enabled !== false) {
             eventQueue.addEvent(event);
         }
     }
