@@ -15,14 +15,17 @@ export interface DebugEvent {
     type: EventType;
     timestamp: string;
 
+    // Name/Label for the event
+    name?: string;
+
     // Function tracking
     functionName?: string;
     filePath?: string;
     lineNumber?: number;
     columnNumber?: number;
 
-    // Data
-    arguments?: unknown[];
+    // Data (can be array or JSON string)
+    arguments?: unknown[] | string;
     returnValue?: unknown;
     error?: {
         message: string;

@@ -78,7 +78,48 @@ export class VisualDebugger {
             sessionId,
             type: 'console_log',
             timestamp: new Date().toISOString(),
+            name: message,
+            arguments: data ? JSON.stringify(data) : undefined,
             metadata: { message, ...data },
+            depth: 0,
+        });
+    }
+
+    static logWithLocation(
+        message: string,
+        args: unknown[],
+        location: {
+            filePath?: string;
+            lineNumber?: number;
+            columnNumber?: number;
+            functionName?: string;
+        }
+    ) {
+        const sessionId = sessionManager.getSessionId();
+
+        // Format data as readable string for display
+        const formattedData = args.map(arg => {
+            if (typeof arg === 'string') return arg;
+            if (typeof arg === 'number' || typeof arg === 'boolean') return String(arg);
+            try {
+                return JSON.stringify(arg);
+            } catch {
+                return String(arg);
+            }
+        }).join(' ');
+
+        this.emit({
+            id: generateId(),
+            sessionId,
+            type: 'console_log',
+            timestamp: new Date().toISOString(),
+            name: location.functionName ? `${location.functionName}()` : message,
+            functionName: location.functionName,
+            filePath: location.filePath,
+            lineNumber: location.lineNumber,
+            columnNumber: location.columnNumber,
+            arguments: JSON.stringify({ message, data: args, formatted: formattedData }),
+            metadata: { message, data: args },
             depth: 0,
         });
     }
